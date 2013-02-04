@@ -1055,7 +1055,7 @@ DS.Store = Ember.Object.extend(DS._Mappable, {
     adapter.invalidRecords(invalidSet, record);
 
     invalidSet.forEach(function(record) {
-      record.adapterDidInvalidate({});
+      record.adapterDidInvalidate(Ember.Object.create());
     });
   },
 
