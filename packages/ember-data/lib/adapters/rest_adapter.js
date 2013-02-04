@@ -319,7 +319,7 @@ DS.RESTAdapter = DS.Adapter.extend({
           serializer = get(this, 'serializer'),
           errors = serializer.extractValidationErrors(type, json);
 
-      store.recordWasInvalid(record, errors);
+      store.recordWasInvalid(record, Ember.Object.create(errors));
     } else {
       this._super.apply(this, arguments);
     }
