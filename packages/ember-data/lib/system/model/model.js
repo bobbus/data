@@ -427,6 +427,10 @@ DS.Model = Ember.Object.extend(Ember.Evented, LoadPromise, {
     this.send('becameInvalid', errors);
   },
 
+  adapterDidValidate: function() {
+    this.send('becameValid');
+  },
+
   adapterDidError: function() {
     this.send('becameError');
   },

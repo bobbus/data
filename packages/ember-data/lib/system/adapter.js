@@ -481,6 +481,14 @@ DS.Adapter = Ember.Object.extend(DS._Mappable, {
     this.dirtyRecordsForRecordChange(dirtySet, parent);
   },
 
+  invalidRecords: function(invalidSet, record) {
+    invalidSet.add(record);
+  },
+
+  validRecord: function(record) {
+    record.adapterDidValidate();
+  },
+
   /**
     @private
 

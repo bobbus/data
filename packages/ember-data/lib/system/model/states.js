@@ -273,6 +273,7 @@ var DirtyState = DS.State.extend({
     didSetProperty: didSetProperty,
 
     becomeDirty: Ember.K,
+    becameValid: Ember.K,
 
     willCommit: function(manager) {
       manager.transitionTo('inFlight');
@@ -369,13 +370,15 @@ var DirtyState = DS.State.extend({
       set(errors, key, null);
 
       if (!hasDefinedProperties(errors)) {
-        manager.send('becameValid');
+        var store = get(record, 'store');
+        store.recordBecameValid(record);
       }
 
       didSetProperty(manager, context);
     },
 
     becomeDirty: Ember.K,
+    becameInvalid: Ember.K,
 
     rollback: function(manager) {
       manager.send('becameValid');

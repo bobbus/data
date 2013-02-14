@@ -87,6 +87,62 @@ DS.RESTAdapter = DS.Adapter.extend({
     return !reference.parent;
   },
 
+  invalidRecords: function(invalidSet, record) {
+    this._invalidTree(invalidSet, record);
+  },
+
+  validRecord: function(record) {
+    var parentRecords = new Ember.OrderedSet();
+
+    record.adapterDidValidate();
+
+    this._parentTree(parentRecords, record);
+
+    parentRecords.forEach(function(parentRecord) {
+      this.embeddedRecordBecameValid(parentRecord);
+    }, this);
+  },
+
+  embeddedRecordBecameValid: function(record) {
+    var embeddedRecords = new Ember.OrderedSet()
+
+    this._embeddedTree(embeddedRecords, record);
+
+    if (embeddedRecords.toArray().everyProperty('isValid')){
+      record.adapterDidValidate();
+    }
+  },
+
+  _invalidTree: function(invalidSet, record) {
+    invalidSet.add(record);
+
+    get(this, 'serializer').eachEmbeddedRecord(record, function(embeddedRecord, embeddedType) {
+      if (embeddedType !== 'always') { return; }
+      if (invalidSet.has(embeddedRecord)) { return; }
+      this._invalidTree(invalidSet, embeddedRecord);
+    }, this);
+  },
+
+  _parentTree: function(parentSet, record) {
+    var reference = record.get('_reference');
+
+    if (reference.parent) {
+      var store = get(record, 'store');
+      var parent = store.recordForReference(reference.parent);
+      parentSet.add(parent);
+      this._parentTree(parentSet, parent);
+    }
+  },
+
+  _embeddedTree: function(embeddedSet, record) {
+    get(this, 'serializer').eachEmbeddedRecord(record, function(embeddedRecord, embeddedType) {
+      if (embeddedType !== 'always') { return; }
+      if (embeddedSet.has(embeddedRecord)) { return; }
+      embeddedSet.add(embeddedRecord);
+      this._embeddedTree(embeddedSet, embeddedRecord);
+    }, this);
+  },
+
   dirtyRecordsForRecordChange: function(dirtySet, record) {
     this._dirtyTree(dirtySet, record);
   },
