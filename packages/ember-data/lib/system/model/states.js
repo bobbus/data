@@ -619,7 +619,7 @@ var states = {
         var record = get(manager, 'record'),
             store = get(record, 'store');
 
-        store.recordArrayManager.remove(record);
+        store.removeFromRecordArrays(record);
       },
 
       // SUBSTATES
