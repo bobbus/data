@@ -381,6 +381,9 @@ var DirtyState = DS.State.extend({
     becameInvalid: Ember.K,
 
     rollback: function(manager) {
+      var record = get(manager, 'record');
+      record.set('errors', Ember.Object.create());
+
       manager.send('becameValid');
       manager.send('rollback');
     },
