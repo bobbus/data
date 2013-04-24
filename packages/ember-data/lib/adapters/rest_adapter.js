@@ -124,7 +124,7 @@ DS.RESTAdapter = DS.Adapter.extend({
   },
 
   _parentTree: function(parentSet, record) {
-    var reference = record.get('_reference');
+    var reference = record.get('reference');
 
     if (reference.parent) {
       var store = get(record, 'store');
