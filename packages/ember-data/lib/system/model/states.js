@@ -168,14 +168,6 @@ var stateProperty = Ember.computed(function(key) {
   }
 }).property();
 
-var hasDefinedProperties = function(object) {
-  for (var name in object) {
-    if (object.hasOwnProperty(name) && object[name]) { return true; }
-  }
-
-  return false;
-};
-
 var didChangeData = function(manager) {
   var record = get(manager, 'record');
   record.materializeData();
@@ -368,8 +360,9 @@ var DirtyState = DS.State.extend({
           key = context.name;
 
       set(errors, key, null);
+      delete errors[key];
 
-      if (!hasDefinedProperties(errors)) {
+      if (Em.isEmpty(Em.keys(errors))) {
         var store = get(record, 'store');
         store.recordBecameValid(record);
       }
