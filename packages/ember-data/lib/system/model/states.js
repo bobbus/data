@@ -338,14 +338,6 @@ var DirtyState = DS.State.extend({
     // FLAGS
     isValid: false,
 
-    exit: function(manager) {
-       var record = get(manager, 'record');
- 
-       record.withTransaction(function (t) {
-         t.remove(record);
-       });
-     },
-
     // EVENTS
     deleteRecord: function(manager) {
       manager.transitionTo('deleted');
