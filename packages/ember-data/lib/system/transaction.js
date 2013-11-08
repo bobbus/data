@@ -161,7 +161,6 @@ DS.Transaction = Ember.Object.extend({
       set(store, 'defaultTransaction', store.transaction());
     }
 
-    this.removeCleanRecords();
     var relationships = get(this, 'relationships');
 
     var commitDetails = this._commitDetails();

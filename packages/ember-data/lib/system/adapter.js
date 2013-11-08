@@ -489,6 +489,30 @@ DS.Adapter = Ember.Object.extend(DS._Mappable, {
     invalidSet.add(record);
   },
 
+
+  /**
+     A record can be valid only if:
+      * It has no errors
+      * Its embedded records are valid
+   */
+  isRecordValid: function(record) {
+    var errors = get(record, 'errors'),
+        serializer = get(this, 'serializer'),
+        isValid = true;
+
+    if (!Em.isEmpty(Em.keys(errors))) {
+      return false;
+    }
+
+    serializer.eachEmbeddedRecord(record, function(embeddedRecord) {
+      if (!embeddedRecord.get('isValid')) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  },
+
   validRecord: function(record) {
     record.adapterDidValidate();
   },

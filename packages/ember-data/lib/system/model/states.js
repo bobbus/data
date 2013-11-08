@@ -354,8 +354,8 @@ var DirtyState = DS.State.extend({
       set(errors, key, null);
       delete errors[key];
 
-      if (Em.isEmpty(Em.keys(errors))) {
-        var store = get(record, 'store');
+      var store = get(record, 'store');
+      if (store.isRecordValid(record)) {
         store.recordBecameValid(record);
       }
 
