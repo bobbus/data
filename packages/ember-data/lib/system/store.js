@@ -1068,6 +1068,14 @@ DS.Store = Ember.Object.extend(DS._Mappable, {
   },
 
   /**
+     This method allows the adapter to determine if the record is valid
+   */
+  isRecordValid: function(record) {
+    var adapter = this.adapterForType(record.constructor);
+    return adapter.isRecordValid(record);
+  },
+
+  /**
     This method allows the adapter to specify that an invalid record
     became valid. 
   */
