@@ -500,7 +500,7 @@ DS.Adapter = Ember.Object.extend(DS._Mappable, {
         serializer = get(this, 'serializer'),
         isValid = true;
 
-    if (!Em.isEmpty(Em.keys(errors))) {
+    if (!Ember.isEmpty(Ember.keys(errors))) {
       return false;
     }
 

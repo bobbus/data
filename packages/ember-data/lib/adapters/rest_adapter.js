@@ -106,14 +106,14 @@ DS.RESTAdapter = DS.Adapter.extend({
   embeddedRecordBecameValid: function(record) {
     // if the record have some errors it will stay invalid regardless of
     // his embedded records valid states
-    if (!Em.isEmpty(Em.keys(record.get('errors')))){
+    if (!Ember.isEmpty(Ember.keys(record.get('errors')))) {
       return;
     }
-    var embeddedRecords = new Ember.OrderedSet()
+    var embeddedRecords = new Ember.OrderedSet();
 
     this._embeddedTree(embeddedRecords, record);
 
-    if (embeddedRecords.toArray().everyProperty('isValid')){
+    if (embeddedRecords.toArray().everyProperty('isValid')) {
       record.adapterDidValidate();
     }
   },
@@ -437,4 +437,3 @@ DS.RESTAdapter = DS.Adapter.extend({
     return since ? query : null;
   }
 });
-
