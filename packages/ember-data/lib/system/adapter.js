@@ -505,10 +505,12 @@ DS.Adapter = Ember.Object.extend(DS._Mappable, {
     }
 
     serializer.eachEmbeddedRecord(record, function(embeddedRecord) {
-      if (!embeddedRecord.get('isValid')) {
+      if (!this.isRecordValid(embeddedRecord)) {
         isValid = false;
+      } else if (get(embeddedRecord, 'isValid') === false) {
+        embeddedRecord.send('becameValid');
       }
-    });
+    }, this);
 
     return isValid;
   },
