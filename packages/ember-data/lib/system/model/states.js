@@ -674,6 +674,12 @@ var states = {
           manager.transitionTo('saved');
 
           manager.send('invokeLifecycleCallbacks');
+        },
+
+        // This event allows to catch errors in the `becameError` record callbacks
+        becameError: function(manager) {
+          manager.transitionTo('error');
+          manager.send('invokeLifecycleCallbacks');
         }
       }),
 
